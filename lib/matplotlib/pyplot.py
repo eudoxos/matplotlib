@@ -351,7 +351,7 @@ def setp(obj, *args, **kwargs):
     return _setp(obj, *args, **kwargs)
 
 
-def xkcd(scale=1, length=100, randomness=2):
+def xkcd(scale=1, length=100, randomness=2, seed=-1):
     """
     Turn on `xkcd <https://xkcd.com/>`_ sketch-style drawing mode.
     This will only have effect on things drawn after this function is
@@ -368,6 +368,10 @@ def xkcd(scale=1, length=100, randomness=2):
         The length of the wiggle along the line.
     randomness : float, optional
         The scale factor by which the length is shrunken or expanded.
+    seed: int, optional
+        Seed for the internal pseudo-random number generator. The special
+        value of -1 will make the randomness different for each object
+        processed.
 
     Notes
     -----
@@ -393,7 +397,7 @@ def xkcd(scale=1, length=100, randomness=2):
     return rc_context({
         'font.family': ['xkcd', 'Humor Sans', 'Comic Sans MS'],
         'font.size': 14.0,
-        'path.sketch': (scale, length, randomness),
+        'path.sketch': (scale, length, randomness, seed),
         'path.effects': [patheffects.withStroke(linewidth=4, foreground="w")],
         'axes.linewidth': 1.5,
         'lines.linewidth': 2.0,
