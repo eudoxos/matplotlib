@@ -1016,7 +1016,7 @@ class GraphicsContextBase(object):
         """
         return self._sketch
 
-    def set_sketch_params(self, scale=None, length=None, randomness=None):
+    def set_sketch_params(self, scale=None, length=None, randomness=None, seed=0):
         """
         Set the sketch parameters.
 
@@ -1031,10 +1031,12 @@ class GraphicsContextBase(object):
         randomness : float, optional
             The scale factor by which the length is shrunken or expanded
             (default 16).
+        seed : int, optional
+            Seed for the internal pseudo-random number generator.
         """
         self._sketch = (
             None if scale is None
-            else (scale, length or 128., randomness or 16.))
+            else (scale, length or 128., randomness or 16., seed))
 
 
 class TimerBase(object):
