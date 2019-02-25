@@ -914,12 +914,15 @@ class PathSimplifier : protected EmbeddedQueue<9>
     }
 };
 
+// XXX: remove!!!
+// #include<iostream>
+
 class SketchBase
 {
     static int previous_seed;
   protected:
     /* handle the special-case value -1 which means: use the
-       previous seed plus one. If not a specia value, only 
+       previous seed plus one. If not a special value, only 
        remember it as the last one and return it.
     */
     int get_prng_seed(int seed)
@@ -929,7 +932,7 @@ class SketchBase
         } else {
             previous_seed = seed;
         }
-        std::cerr<<"Seeding PRNG with "<<previous_seed<<std::endl;
+        // std::cerr<<"Seeding PRNG with "<<previous_seed<<" (@"<<(void*)(&previous_seed)<<"; got seed "<<seed<<")"<<std::endl;
         return previous_seed;
     };
   public:
@@ -965,9 +968,13 @@ class Sketch: SketchBase
           m_last_y(0.0),
           m_has_last(false),
           m_p(0.0),
-          m_rand(get_prng_seed(seed))
+          m_rand(0),
+          /* if scale==0. (e.g. with test), then seed is 0
+             that would set previous_seed to 0 which is not what we want.
+          */
+          m_seed0( scale!=0 ? get_prng_seed(seed) : 0)
     {
-        rewind(0);
+        rewind(0); // re-seeds PRNG with m_seed0 again
     }
 
     unsigned vertex(double *x, double *y)
@@ -1015,7 +1022,7 @@ class Sketch: SketchBase
         m_has_last = false;
         m_p = 0.0;
         if (m_scale != 0.0) {
-            m_rand.seed(0);
+            m_rand.seed(m_seed0);
             m_segmented.rewind(path_id);
         } else {
             m_source->rewind(path_id);
@@ -1033,6 +1040,7 @@ class Sketch: SketchBase
     bool m_has_last;
     double m_p;
     RandomNumberGenerator m_rand;
+    int m_seed0;
 };
 
 #endif // MPL_PATH_CONVERTERS_H

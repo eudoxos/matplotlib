@@ -1127,7 +1127,7 @@ class Path(SetupPackage):
         sources = [
             'src/py_converters.cpp',
             'src/_path_wrapper.cpp',
-            'src/path_converters.cpp'
+            "src/path_converters.cpp",
             ]
 
         ext = make_extension('matplotlib._path', sources)
@@ -1202,6 +1202,7 @@ class BackendAgg(OptionalBackendPackage):
         sources = [
             "src/mplutils.cpp",
             "src/py_converters.cpp",
+            "src/path_converters.cpp",
             "src/_backend_agg.cpp",
             "src/_backend_agg_wrapper.cpp"
             ]

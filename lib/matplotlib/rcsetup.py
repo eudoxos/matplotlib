@@ -671,6 +671,8 @@ def validate_sketch(s):
         result = tuple([float(v) for v in s])
     if len(result) not in (3, 4):
         raise ValueError("path.sketch must be a 3-tuple (scale, length, randomness) or a 4-tuple (scale, length, randomness, seed)")
+    # make sure seed is an integer
+    if len(result)==4: result=(result[0],result[1],result[2],int(result[3]))
     return result
 
 
