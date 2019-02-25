@@ -1126,7 +1126,8 @@ class Path(SetupPackage):
     def get_extension(self):
         sources = [
             'src/py_converters.cpp',
-            'src/_path_wrapper.cpp'
+            'src/_path_wrapper.cpp',
+            'src/path_converters.cpp'
             ]
 
         ext = make_extension('matplotlib._path', sources)

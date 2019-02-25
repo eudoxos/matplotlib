@@ -914,8 +914,33 @@ class PathSimplifier : protected EmbeddedQueue<9>
     }
 };
 
+class SketchBase
+{
+    static int previous_seed;
+  protected:
+    /* handle the special-case value -1 which means: use the
+       previous seed plus one. If not a specia value, only 
+       remember it as the last one and return it.
+    */
+    int get_prng_seed(int seed)
+    {
+        if (seed==-1) {
+            previous_seed++;
+        } else {
+            previous_seed = seed;
+        }
+        std::cerr<<"Seeding PRNG with "<<previous_seed<<std::endl;
+        return previous_seed;
+    };
+  public:
+    static void reset_previous_seed(int seed = 0)
+    {
+       previous_seed = seed;
+    }
+};
+
 template <class VertexSource>
-class Sketch
+class Sketch: SketchBase
 {
   public:
     /*
@@ -940,7 +965,7 @@ class Sketch
           m_last_y(0.0),
           m_has_last(false),
           m_p(0.0),
-          m_rand(seed)
+          m_rand(get_prng_seed(seed))
     {
         rewind(0);
     }
