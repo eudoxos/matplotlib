@@ -669,8 +669,8 @@ def validate_sketch(s):
         result = tuple([float(v.strip()) for v in s.split(',')])
     elif isinstance(s, (list, tuple)):
         result = tuple([float(v) for v in s])
-    if len(result) != 3:
-        raise ValueError("path.sketch must be a tuple (scale, length, randomness)")
+    if len(result) not in (3, 4):
+        raise ValueError("path.sketch must be a 3-tuple (scale, length, randomness) or a 4-tuple (scale, length, randomness, seed)")
     return result
 
 
